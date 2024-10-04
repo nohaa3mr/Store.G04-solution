@@ -10,7 +10,7 @@ namespace Store.G04.Core.Entities
 	{
         public string Name { get; set; }
         public string Description { get; set; }
-        public string PictureURL { get; set; }
+        public string ? PictureURL { get; set; }
         public decimal Price { get; set; }
         public ProductBrand Brand { get; set; }
         public int? BrandId { get; set; }
