@@ -3,20 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Store.G04.Repositories.Data.Contexts;
 
 #nullable disable
 
-namespace Store.G04.Repositories.Data.Migrations
+namespace Store.G04.Repositories.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
-    [Migration("20241002205042_StoreProductsV01")]
-    partial class StoreProductsV01
+    partial class StoreDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
