@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Store.G04.Core.Entities;
 using Store.G04.Core.Repositories.Contract;
+using Store.G04.Core.Specifications;
 using Store.G04.Repositories.Data.Contexts;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Store.G04.Repositories.Repositories
 {
-	public class GenericRepository<TEntity, Tkey> : IGenericRepository<TEntity, Tkey> where TEntity : BaseEntity<Tkey>
+	public class GenericRepository<TEntity, Tkey> : IGenericRepository<TEntity ,Tkey> where TEntity : BaseEntity<Tkey>
 	{
 		private readonly StoreDbContext _context;
 
@@ -34,12 +35,19 @@ namespace Store.G04.Repositories.Repositories
 		{
 			if (typeof(TEntity) == typeof(Product))
 			{
-				return(IEnumerable<TEntity>) await _context.products.Include(p => p.Brand).Include(P => P.Type).ToListAsync();
+				return(IEnumerable<TEntity>) await _context.products.OrderBy( N=> N.Name).Include(p => p.Brand).Include(P => P.Type).ToListAsync();
 			}
 		     return	await _context.Set<TEntity>().ToListAsync();
 		}
 
-		public async Task<TEntity?> GetByIdAsync(Tkey id)
+		public async Task<IEnumerable<TEntity>> GetAllWithSpec(ISpecifications<TEntity> spec)
+		{
+			return await ApplySpecifications(spec).ToListAsync();
+		}
+
+
+
+		public async Task<TEntity> GetByIdAsync(Tkey id)
 		{
 			if (typeof(TEntity) == typeof(Product))
 			{
@@ -49,9 +57,21 @@ namespace Store.G04.Repositories.Repositories
 			return await _context.Set<TEntity>().FindAsync(id);
 		}
 
+		public async Task<TEntity> GetByIdWithSpecAsync(ISpecifications<TEntity> spec)
+		{
+			return await ApplySpecifications(spec).FirstOrDefaultAsync();
+		}
+
+		
+
 		public void Update(TEntity entity)
 		{
 			_context.Update(entity);	
 	    }
+
+		private IQueryable<TEntity> ApplySpecifications(ISpecifications<TEntity> specifications)
+		{
+			 return  SpecificationEvaluator<TEntity, Tkey>.GetQuery(_context.Set<TEntity>(), specifications);
+		}
 	}
 }
