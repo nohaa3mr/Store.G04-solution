@@ -2,11 +2,9 @@
 using Store.G04.Core.Entities;
 using Store.G04.Core.Profiles;
 using Store.G04.Core.Repositories.Contract;
-using Store.G04.Core.Services.Contract;
 using Store.G04.Core;
 using Store.G04.Repositories.Repositories;
 using Store.G04.Repositories;
-using Store.G04.Service.Services.Products;
 using Store.G04.APIs.Errors;
 using Store.G04.Core.DTOs.Products.DTOs;
 
@@ -14,11 +12,10 @@ namespace Store.G04.APIs.ExtensionMethods
 {
 	public static class ApplicationServeiceExtension
 	{
-		public static IServiceCollection ApplicationServer(this IServiceCollection Services)
+		public static IServiceCollection ApplicationServer(this IServiceCollection Services)  //extension method
 		{
-		   Services.AddScoped<IProductService, ProductSevice>();
-			Services.AddScoped<IUnitOfWork, UnitOfWork>();
-			Services.AddScoped< IGenericRepository <Product,int>, GenericRepository<Product, int>>();
+		  
+			Services.AddScoped(typeof( IGenericRepository <>), typeof( GenericRepository<>));
 			Services.AddAutoMapper(typeof(ProductDTO));
 
 			Services.Configure<ApiBehaviorOptions>(Options =>

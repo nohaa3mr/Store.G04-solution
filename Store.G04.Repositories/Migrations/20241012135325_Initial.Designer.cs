@@ -12,8 +12,8 @@ using Store.G04.Repositories.Data.Contexts;
 namespace Store.G04.Repositories.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
-    [Migration("20241002235817_ProductPictureURl")]
-    partial class ProductPictureURl
+    [Migration("20241012135325_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

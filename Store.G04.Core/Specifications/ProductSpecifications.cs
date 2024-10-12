@@ -9,21 +9,17 @@ namespace Store.G04.Core.Specifications
 {
 	public class ProductSpecifications : Specifications<Product>
 	{
-		public ProductSpecifications(int id): base() 
-        {
-            Includes.Add(P => P.Type);
-            Includes.Add(P => P.Brand);
-        }
-        public ProductSpecifications( string? sort ) :base()
-             //P =>
-             //(!brandId.HasValue || brandId ==P.BrandId)
-             //&& 
-             //(!typeId.HasValue || typeId == P.TypeId)
-            
-        {
-            if (string.IsNullOrEmpty(sort))
+	
+        public ProductSpecifications(ProductsSpecParameters parameters) : base(P =>
+			 (!parameters.BarandId.HasValue || parameters.BarandId == P.BrandId)
+			 &&
+			 (!parameters.TypeId.HasValue || parameters.TypeId == P.TypeId)
+			 )
+
+		{
+            if (string.IsNullOrEmpty(parameters.Sort))
             {
-                switch (sort)
+                switch (parameters.Sort)
                 {
                     case "PriceAsc":
                       AddOrderBy(P => P.Price);
@@ -44,5 +40,10 @@ namespace Store.G04.Core.Specifications
 			Includes.Add(P => P.Type);
 			Includes.Add(P => P.Brand);
 		}
-    }
+		public ProductSpecifications(int id) : base(P => P.Id == id)
+		{
+			Includes.Add(P => P.Type);
+			Includes.Add(P => P.Brand);
+		}
+	}
 }

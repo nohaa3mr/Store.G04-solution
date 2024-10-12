@@ -10,7 +10,7 @@ using Store.G04.Core.Entities;
 
 namespace Store.G04.Repositories.Repositories
 {
-	public static class SpecificationEvaluator<T,Tkey> where T : BaseEntity<Tkey>
+	public static class SpecificationEvaluator<T> where T : BaseEntity
 	{
 		public static IQueryable<T> GetQuery(IQueryable<T> inputQuery, ISpecifications<T> specifications)
 		{
