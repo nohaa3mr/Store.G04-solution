@@ -9,12 +9,17 @@ using System.Threading.Tasks;
 
 namespace Store.G04.Repositories.Data.ClassConfigurations
 {
-	internal class ProductConfiguration : IEntityTypeConfiguration<Product>
+	public class ProductConfiguration : IEntityTypeConfiguration<Product>
 	{
 		public void Configure(EntityTypeBuilder<Product> builder)
 		{
-			builder.Property(p => p.PictureURL).IsRequired(true);
-			
+			builder.Property(p => p.PictureURL).IsRequired();
+			builder.Property(p => p.Name).IsRequired();
+			builder.Property(p => p.Description).IsRequired();
+
+			builder.HasOne(P => P.Brand).WithMany().HasForeignKey(P => P.BrandId);
+
+			builder.HasOne(P => P.Type).WithMany().HasForeignKey(P => P.TypeId);
 		}
 	}
 }

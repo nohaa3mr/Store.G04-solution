@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Store.G04.Repositories.Repositories
 {
-	public class GenericRepository<TEntity, Tkey> : IGenericRepository<TEntity ,Tkey> where TEntity : BaseEntity<Tkey>
+	public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : BaseEntity
 	{
 		private readonly StoreDbContext _context;
 
@@ -23,6 +23,7 @@ namespace Store.G04.Repositories.Repositories
         public async Task AddAsync(TEntity entity)
 		{
 		  await	_context.AddAsync(entity);
+			await _context.SaveChangesAsync();
 		}
 
 		public void Delete(TEntity entity)
@@ -47,7 +48,7 @@ namespace Store.G04.Repositories.Repositories
 
 
 
-		public async Task<TEntity> GetByIdAsync(Tkey id)
+		public async Task<TEntity> GetByIdAsync(int id)
 		{
 			if (typeof(TEntity) == typeof(Product))
 			{
@@ -71,7 +72,8 @@ namespace Store.G04.Repositories.Repositories
 
 		private IQueryable<TEntity> ApplySpecifications(ISpecifications<TEntity> specifications)
 		{
-			 return  SpecificationEvaluator<TEntity, Tkey>.GetQuery(_context.Set<TEntity>(), specifications);
+			 return  SpecificationEvaluator<TEntity>.GetQuery(_context.Set<TEntity>(), specifications);
 		}
+
 	}
 }

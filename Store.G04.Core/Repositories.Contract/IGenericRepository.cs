@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Store.G04.Core.Repositories.Contract
 {
- public interface IGenericRepository<T, Tkey> where T : BaseEntity<Tkey>
+ public interface IGenericRepository<T> where T : BaseEntity
  {
 		Task<IEnumerable<T>> GetAllAsync();
-		Task<T> GetByIdAsync(Tkey id); 
+		Task<T> GetByIdAsync(int id); 
 		Task AddAsync(T entity);
 		void Delete(T entity);
 		void Update(T entity);

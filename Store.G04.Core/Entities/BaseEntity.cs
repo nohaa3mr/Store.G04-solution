@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Store.G04.Core.Entities
 {
-	public class BaseEntity<TKey>
+	public class BaseEntity
 	{
-        public TKey Id { get; set; }
+        public int Id { get; set; }
 
         public DateTime CreateAt { get; set; } = DateTime.UtcNow;
     }
